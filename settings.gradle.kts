@@ -12,3 +12,21 @@ plugins {
 
 rootProject.name = "gradle-lab1"
 include("app", "model")
+
+buildCache {
+    local{
+        isEnabled = false
+    }
+    remote<HttpBuildCache> {
+        // change the url to develocity
+        url = uri("http://localhost:8080")
+        isPush = true
+
+        credentials {
+//            username = "admin"
+//            password = "admin"
+            username = System.getProperty("CACHE_USERNAME")
+            password = System.getProperty("CACHE_PASSWORD")
+        }
+    }
+}
