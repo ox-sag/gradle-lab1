@@ -4,33 +4,61 @@
  * The settings file is used to specify which projects to include in your build.
  * For more detailed information on multi-project builds, please refer to https://docs.gradle.org/8.10.2/userguide/multi_project_builds.html in the Gradle documentation.
  */
+// ./gradlew clean build --scan
+// publish gradle report
 
 plugins {
     // Apply the foojay-resolver plugin to allow automatic download of JDKs
     id("org.gradle.toolchains.foojay-resolver-convention") version "0.8.0"
+    id("com.gradle.enterprise") version "3.16.2"
 }
 
-rootProject.name = "gradle-lab1"
-include("app", "model")
 
 //more information
 //https://github.com/gradle/dpeuni-gradle-remote-caching/tree/main?tab=readme-ov-file
 
-val isCiServer = System.getenv().containsKey("CI")
-buildCache {
-    local{
-        isEnabled = false
-    }
-    remote<HttpBuildCache> {
-        // change the url to develocity
-        url = uri("http://localhost:8080")
-        isPush = isCiServer
-
-        credentials {
-//            username = "admin"
-//            password = "admin"
-            username = System.getProperty("CACHE_USERNAME")
-            password = System.getProperty("CACHE_PASSWORD")
+//val isCiServer = System.getenv().containsKey("CI")
+//buildCache {
+//    local{
+//        isEnabled = false
+//    }
+//    remote<HttpBuildCache> {
+//        // change the url to develocity
+//        url = uri("https://dpeuniversity-develocity.gradle.com")
+//        isPush = isCiServer
+//
+//        credentials {
+////            username = "admin"
+////            password = "admin"
+//            username = System.getProperty("CACHE_USERNAME")
+//            password = System.getProperty("CACHE_PASSWORD")
+//        }
+//    }
+//}
+gradleEnterprise {
+    server = "https://dpeuniversity-develocity.gradle.com"
+    buildScan {
+        capture {
+            isTaskInputFiles = true
         }
+        // Optional, Add tags and values that make it easier to find the Build Scan related to this lab.
+        // See https://docs.gradle.com/develocity/gradle-plugin/current/#extending_build_scans for more information about adding custom information to a Build Scan.
+        tag("dpeuni-gradle-remote-caching")
+        tag("solution")
+        value("Course", "Incremental Builds and Build Caching")
+    }
+}
+
+
+rootProject.name = "gradle-lab1"
+include("app", "model")
+
+buildCache{
+    local   {
+        isEnabled = true
+    }
+    remote(gradleEnterprise.buildCache) {
+        isEnabled = true
+        isPush = true
     }
 }
