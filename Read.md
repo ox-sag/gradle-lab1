@@ -2,6 +2,7 @@ https://github.com/gradle/dpeuni-gradle-incremental-and-caching-local
 https://github.com/gradle/dpeuni-gradle-remote-caching/tree/solution
 https://docs.gradle.com/develocity/gradle-plugin/current/#authenticating
 https://dpeuniversity-develocity.gradle.com/settings/access-keys
+https://docs.gradle.com/develocity/maven-extension/current/#authenticating
 
 $ ./gradlew :app:clean :app:test -i
 ...
