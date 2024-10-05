@@ -1,3 +1,5 @@
+import java.time.Instant
+import java.time.format.DateTimeFormatter
 
 
 plugins {
@@ -43,4 +45,12 @@ tasks.named<Test>("test") {
 
 tasks.named<JavaCompile>("compileJava") {
     options.isDebug=false
+}
+
+tasks.named<Jar>("jar") {
+    manifest {
+        attributes(
+            "Implementation-Timestamp" to DateTimeFormatter.ISO_INSTANT.format(Instant.now()),
+        )
+    }
 }

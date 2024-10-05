@@ -56,3 +56,11 @@ tasks.named<Test>("test") {
 tasks.named<JavaCompile>("compileJava") {
     options.isDebug=false
 }
+// mainifest file is changing due to task added in model
+normalization {
+    runtimeClasspath {
+        metaInf {
+            ignoreAttribute("Implementation-Timestamp")
+        }
+    }
+}
