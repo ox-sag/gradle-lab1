@@ -11,4 +11,4 @@ plugins {
 }
 
 rootProject.name = "gradle-lab1"
-include("app")
+include("app", "model")
