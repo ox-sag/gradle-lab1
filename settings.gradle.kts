@@ -13,6 +13,9 @@ plugins {
 rootProject.name = "gradle-lab1"
 include("app", "model")
 
+//more information
+//https://github.com/gradle/dpeuni-gradle-remote-caching/tree/main?tab=readme-ov-file
+
 val isCiServer = System.getenv().containsKey("CI")
 buildCache {
     local{
