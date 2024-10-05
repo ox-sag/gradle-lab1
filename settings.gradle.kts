@@ -13,6 +13,7 @@ plugins {
 rootProject.name = "gradle-lab1"
 include("app", "model")
 
+val isCiServer = System.getenv().containsKey("CI")
 buildCache {
     local{
         isEnabled = false
@@ -20,7 +21,7 @@ buildCache {
     remote<HttpBuildCache> {
         // change the url to develocity
         url = uri("http://localhost:8080")
-        isPush = true
+        isPush = isCiServer
 
         credentials {
 //            username = "admin"
