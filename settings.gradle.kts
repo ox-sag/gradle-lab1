@@ -10,7 +10,8 @@
 plugins {
     // Apply the foojay-resolver plugin to allow automatic download of JDKs
     id("org.gradle.toolchains.foojay-resolver-convention") version "0.8.0"
-    id("com.gradle.enterprise") version "3.16.2"
+//    id("com.gradle.enterprise") version "3.16.2"
+    id("com.gradle.develocity") version "3.17"
 }
 
 
@@ -35,29 +36,33 @@ plugins {
 //        }
 //    }
 //}
-gradleEnterprise {
-    server = "https://dpeuniversity-develocity.gradle.com"
-    buildScan {
-        capture {
-            isTaskInputFiles = true
-        }
-        // Optional, Add tags and values that make it easier to find the Build Scan related to this lab.
-        // See https://docs.gradle.com/develocity/gradle-plugin/current/#extending_build_scans for more information about adding custom information to a Build Scan.
-        tag("dpeuni-gradle-remote-caching")
-        tag("solution")
-        value("Course", "Incremental Builds and Build Caching")
-    }
-}
-
+//gradleEnterprise {
+//    server = "https://dpeuniversity-develocity.gradle.com"
+//    buildScan {
+//        capture {
+//            isTaskInputFiles = true
+//        }
+//        // Optional, Add tags and values that make it easier to find the Build Scan related to this lab.
+//        // See https://docs.gradle.com/develocity/gradle-plugin/current/#extending_build_scans for more information about adding custom information to a Build Scan.
+//        tag("dpeuni-gradle-remote-caching")
+//        tag("solution")
+//        value("Course", "Incremental Builds and Build Caching")
+//    }
+//}
 
 rootProject.name = "gradle-lab1"
 include("app", "model")
 
+develocity {
+    server = "https://dpeuniversity-develocity.gradle.com"
+}
+
 buildCache{
-    local   {
-        isEnabled = true
+    local  {
+    removeUnusedEntriesAfterDays = 30
+        isEnabled = false
     }
-    remote(gradleEnterprise.buildCache) {
+    remote(develocity.buildCache) {
         isEnabled = true
         isPush = true
     }
